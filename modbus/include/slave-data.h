@@ -62,7 +62,7 @@ enum
 {
     DI_INIT_ADDRESS = 0, ///< Discrete inputs
     IT_INIT_ADDRESS = 2, ///< Input registers
-    HL_INIT_ADDRESS = 5, ///< Holding registers
+    HL_INIT_ADDRESS = 0, ///< Holding registers
     CL_INIT_ADDRESS = 16 ///< Coils
 };
 

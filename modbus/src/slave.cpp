@@ -155,15 +155,15 @@ bool Slave::getCoil(quint16 address) const
 }
 
 QMap<quint16, data_unit_t<bool>> Slave::getCoils() const{
-	return coils;
+    return coils;
 }
 
 QMap<quint16, data_unit_t<bool>> Slave::getDiscreteInputs() const{
-	return discrete_inputs;
+    return discrete_inputs;
 }
 
 QMap<quint16, data_unit_t<quint16>> Slave::getInputRegisters() const{
-	return input_registers;
+    return input_registers;
 }
 
 
@@ -260,12 +260,17 @@ QString Slave::getInputRegisterDescription(quint16 address) const
 //------------------------------------------------------------------------------
 bool Slave::checkRequest(QByteArray data)
 {
+    if(data.size() <= FUNC)
+    {
+        logPrint("ERROR: Request size too small: " + data);
+        return false;
+    }
+
     if (!checkFuncCode(data.at(FUNC)))
     {
         logPrint("ERROR: Invalid function code " + QString::number(data.at(FUNC)));
         return false;
     }
-
     quint8 crc_idx = data.size() - 2;
     quint16 crc = word(data.at(crc_idx), data.at(crc_idx + 1));
 
@@ -394,10 +399,10 @@ void Slave::readDiscreteValues(QByteArray data, QMap<quint16, data_unit_t<bool> 
 
     for (quint16 i = 0; i < count; i++)
     {
-       if (dv[address + i].value)
-       {
+        if (dv[address + i].value)
+        {
             buff[i / BYTE_SIZE] |= (1 << (i % BYTE_SIZE));
-       }
+        }
     }
 
     reply.append(buff, size);

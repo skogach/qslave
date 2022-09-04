@@ -19,6 +19,7 @@
 #include    <QObject>
 #include    <QSerialPort>
 #include    <QMap>
+#include    <QElapsedTimer>
 
 #include    "serial-config.h"
 #include    "slave.h"
@@ -66,6 +67,9 @@ public:
 
     /// Clean slaves list
     void clear();
+
+private:
+    QElapsedTimer elTimer;
 
 protected:
 

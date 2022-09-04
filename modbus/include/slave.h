@@ -113,7 +113,7 @@ protected:
     bool checkRequest(QByteArray data);
 
     /// Check function code
-    bool checkFuncCode(quint8 func);
+    static bool checkFuncCode(quint8 func);
 
     /// Process Modbus function
     void processFunc(quint8 func, QByteArray data);

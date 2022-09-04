@@ -25,6 +25,7 @@ ModbusNetwork::ModbusNetwork(QObject *parent) : QObject(parent)
     serialPort = nullptr;
     is_connected = false;
     silence_interval = 5000;
+    elTimer.start();
 }
 
 //------------------------------------------------------------------------------
@@ -165,11 +166,23 @@ void ModbusNetwork::sendData(QByteArray data)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+#include <QDebug>
+static QByteArray accumulated;
 void ModbusNetwork::receive()
 {
     QByteArray data = serialPort->readAll();
-
-    emit sendDataToSlaves(data);
+    if(elTimer.elapsed() > 50)
+    {
+        accumulated.clear();
+        qDebug() << "cleared " << elTimer.elapsed();
+    }
+    else
+    {
+        qDebug() << "not cleared";
+    }
+    accumulated.append(data);
+    elTimer.start();
+    emit sendDataToSlaves(accumulated);
 }
 
 //------------------------------------------------------------------------------
